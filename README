@@ -1,0 +1,7 @@
+My small FRIDGE
+
+It's a dict{} containing several keys, your products, and an amount, their value.
+
+With open_fridge(product, action, amount), where "action" can be either "add" or "sub". If the fridge is empty, it doesn't get emptier.
+
+Enjoy!
