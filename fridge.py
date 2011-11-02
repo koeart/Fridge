@@ -7,7 +7,6 @@ action  = ""
 
 def main(args):
     fridge  = load()
-    print fridge
     if len(args) <= 1:
         action  = raw_input("Operator = ")
         if action == "show":
@@ -19,9 +18,7 @@ def main(args):
     else:
         action  = args[1]
         product = args[2]
-        print product
         amount = int(args[3])
-        print amount
     open_fridge(action, product, amount)
 
 def open_fridge(action, product, amount):
@@ -39,13 +36,10 @@ def open_fridge(action, product, amount):
          print "falsche Eingabe. Bitte nutze \"show\", \"add\" oder \"sub\"."
 
 def add_product(product):
-    print product
     if (not(fridge.has_key(product))):
-        print "has not that product"
         fridge.update({product : 0})
         add_product(product)
     else:
-        print fridge[product]
         fridge[product] += 1
 
 def sub_product(product):
@@ -58,7 +52,6 @@ def save(fridge):
     f = open("fridge.json", "w")
     json.dump(fridge,f)
     f.close()
-    print "saved"
 
 def load():
     try:
