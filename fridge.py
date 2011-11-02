@@ -1,4 +1,64 @@
 import json
+import sys
+
+fridge = {}
+product = ""
+action  = ""
+
+def main(args):
+    fridge  = load()
+    print fridge
+    if len(args) <= 1:
+        action  = raw_input("Operator = ")
+        if action == "show":
+            #TODO print fridge.
+            print "Yes we know, this is a TODO"
+            return
+        product = raw_input("Produkt = ")
+        amount  = int(raw_input("Anzahl = "))
+    else:
+        action  = args[1]
+        product = args[2]
+        print product
+        amount = int(args[3])
+        print amount
+    open_fridge(action, product, amount)
+
+def open_fridge(action, product, amount):
+    if action == "add":
+        for i in range(amount):
+            add_product(product)
+        print str(amount) + " " + product + " hinzugefuegt"
+        save(fridge)
+    elif action == "sub":
+        for i in range(amount):
+            sub_product(product)
+        print str(amount) + " " + product + "rausgenommen"
+        save(fridge)
+    else:
+         print "falsche Eingabe. Bitte nutze \"show\", \"add\" oder \"sub\"."
+
+def add_product(product):
+    print product
+    if (not(fridge.has_key(product))):
+        print "has not that product"
+        fridge.update({product : 0})
+        add_product(product)
+    else:
+        print fridge[product]
+        fridge[product] += 1
+
+def sub_product(product):
+    if fridge[product] >= 1:
+        fridge[product] -= 1
+    else:
+        print "Fridge leer!"
+
+def save(fridge):
+    f = open("fridge.json", "w")
+    json.dump(fridge,f)
+    f.close()
+    print "saved"
 
 def load():
     try:
@@ -7,43 +67,9 @@ def load():
         f.close()
     except:
         fridge = {}
-    return fridge
+        print "new Fridge"
+    finally:
+        return fridge
 
-fridge = load()
-
-
-def open_fridge(product, action, amount):
-    if (not(fridge.has_key(product)) and action != sub):
-        fridge.update({product : 0})
-        add_product(product)
-    else:
-        if action == "add":
-            for i in range(amount):
-                add_product(product)
-            save(fridge)
-        elif action == "sub":
-            for i in range(amount):
-                sub_product(product)
-            save(fridge)
-        else:
-            return "Bitte sub oder add ein Produkt!"
-
-def add_product(product):
-    fridge[product] += 1
-    message = product + " hinzugefuegt"
-    return message
-
-def sub_product(product):
-    if fridge[product] >= 1:
-        fridge[product] -= 1
-        message = produkt + "rausgenommen"
-    else:
-        message = "Fridge leer!"
-    return message
-
-def save(fridge):
-    json.dump(fridge, jfridge)
-    f = open("fridge.json", "w")
-    f.write(jfridge)
-    f.close()
-    return "saved"
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))
