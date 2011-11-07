@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import json
 import sys
 
@@ -55,12 +57,12 @@ def save(fridge):
 
 def load():
     try:
+        global fridge
         f = open("fridge.json","r")
         fridge = json.load(f)
         f.close()
     except:
         fridge = {}
-        print "new Fridge"
     finally:
         return fridge
 
